@@ -1,0 +1,312 @@
+/* Home Page Styles */
+.home-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  padding-bottom: 120px;
+}
+
+.page-title {
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  font-weight: 700;
+}
+
+/* Product Cards */
+.product-card {
+  background: linear-gradient(145deg, #ffffff, #f0f0f0);
+  border: none;
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.product-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.product-card .card-img-top {
+  height: 200px;
+  object-fit: cover;
+  border-bottom: 3px solid #4a90e2;
+}
+
+.product-card .card-body {
+  padding: 1.5rem;
+}
+
+.product-card .card-title {
+  color: #1a1a2e;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.product-card .card-text {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.product-price {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #4a90e2;
+  margin: 1rem 0;
+}
+
+.btn-afegir {
+  width: 100%;
+  background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+  border: none;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-afegir:hover {
+  background: linear-gradient(135deg, #357abd 0%, #2868a0 100%);
+  transform: scale(1.02);
+  color: white;
+}
+
+/* Shopping Cart Widget */
+.cistella-widget {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  min-width: 320px;
+  max-width: 400px;
+  background: linear-gradient(145deg, #2d2d4a, #1a1a2e);
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.cistella-widget.oberta {
+  max-height: 500px;
+}
+
+.cistella-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cistella-header:hover {
+  background: linear-gradient(135deg, #357abd 0%, #2868a0 100%);
+}
+
+.cistella-icon {
+  position: relative;
+  font-size: 1.5rem;
+}
+
+.cistella-badge {
+  position: absolute;
+  top: -8px;
+  right: -12px;
+  background: #ff4757;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 10px;
+  min-width: 20px;
+  text-align: center;
+}
+
+.cistella-title {
+  flex: 1;
+  color: white;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.cistella-toggle {
+  color: white;
+  font-size: 0.8rem;
+  transition: transform 0.3s ease;
+}
+
+/* Cart Content */
+.cistella-contingut {
+  max-height: 400px;
+  overflow-y: auto;
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.cistella-buida {
+  padding: 30px;
+  text-align: center;
+  color: #888;
+  font-style: italic;
+}
+
+.cistella-items {
+  padding: 10px;
+}
+
+.cistella-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  margin-bottom: 10px;
+  transition: all 0.2s ease;
+}
+
+.cistella-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.cistella-item-img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.cistella-item-info {
+  flex: 1;
+}
+
+.cistella-item-info h6 {
+  color: white;
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.cistella-item-preu {
+  color: #4a90e2;
+  margin: 4px 0 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.cistella-item-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-quantitat {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: none;
+  border-radius: 6px;
+  background: #4a90e2;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-quantitat:hover {
+  background: #357abd;
+  transform: scale(1.1);
+}
+
+.quantitat {
+  color: white;
+  font-weight: 600;
+  min-width: 24px;
+  text-align: center;
+}
+
+.btn-eliminar {
+  padding: 4px 8px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-radius: 6px;
+}
+
+.btn-eliminar:hover {
+  background: rgba(255, 71, 87, 0.2);
+  transform: scale(1.1);
+}
+
+/* Cart Footer */
+.cistella-footer {
+  padding: 16px 20px;
+  background: rgba(0, 0, 0, 0.2);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cistella-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+  font-size: 1.1rem;
+  margin-bottom: 12px;
+}
+
+.cistella-total span {
+  color: #4a90e2;
+  font-weight: 700;
+  font-size: 1.3rem;
+}
+
+.btn-comprar {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #00b894 0%, #00a085 100%);
+  color: white;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-comprar:hover {
+  background: linear-gradient(135deg, #00a085 0%, #008c73 100%);
+  transform: scale(1.02);
+}
+
+/* Scrollbar styling */
+.cistella-contingut::-webkit-scrollbar {
+  width: 6px;
+}
+
+.cistella-contingut::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.cistella-contingut::-webkit-scrollbar-thumb {
+  background: #4a90e2;
+  border-radius: 3px;
+}
+
+.cistella-contingut::-webkit-scrollbar-thumb:hover {
+  background: #357abd;
+}
