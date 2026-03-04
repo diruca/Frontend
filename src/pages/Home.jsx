@@ -226,9 +226,9 @@ export default function Home() {
                     <strong>Total:</strong>
                     <span>{totalCistella.toFixed(2)} €</span>
                   </div>
-                  <button className="btn-comprar">
+                  <Link to="/checkout" className="btn-comprar text-center d-block text-decoration-none">
                     Finalitzar Compra
-                  </button>
+                  </Link>
                 </div>
               </>
             )}
