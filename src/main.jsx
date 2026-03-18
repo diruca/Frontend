@@ -8,21 +8,24 @@ import Login from './pages/Login.jsx'
 import Register from './pages/Register.jsx'
 import ProductDetail from './pages/ProductDetail.jsx'
 import Checkout from './pages/Checkout.jsx'
-
+import { AuthProvider } from './context/AuthContext.jsx'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<App />}>
-          <Route index element={<Home />} />
-          <Route path="login" element={<Login />} />
-          <Route path="register" element={<Register />} />
-          <Route path="product/:id" element={<ProductDetail />} />
-          <Route path="checkout" element={<Checkout />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<App />}>
+            <Route index element={<Home />} />
+            <Route path="login" element={<Login />} />
+            <Route path="register" element={<Register />} />
+            <Route path="product/:id" element={<ProductDetail />} />
+            <Route path="checkout" element={<Checkout />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   </React.StrictMode>,
 )

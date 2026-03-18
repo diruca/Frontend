@@ -7,7 +7,8 @@ import Imagen3 from './img/71w7rKma8cL_40743863-5242-429a-9.jpg';
 
 
 
-const USER_ID = "65b2a3f4e4b0a1a2b3c4d5e6";
+import { useAuth } from '../context/AuthContext';
+
 const API_URL = "http://localhost:3000/api/cart";
 const ORDER_URL = "http://localhost:3000/api/orders";
 
@@ -18,10 +19,6 @@ export default function Checkout() {
     const [missatge, setMissatge] = useState(null);
     const [pas, setPas] = useState(1); // 1: Enviament, 2: Pagament
     const [metodePagament, setMetodePagament] = useState('targeta');
-
-    const navigate = useNavigate();
-    const imatgesDisponibles = [Imagen1, Imagen2, Imagen3];
-
     const [shippingAddress, setShippingAddress] = useState({
         street: '',
         city: '',
@@ -29,8 +26,24 @@ export default function Checkout() {
         country: ''
     });
 
+    const navigate = useNavigate();
+    const { user, token, isAuthenticated, loading: authLoading } = useAuth();
+    const imatgesDisponibles = [Imagen1, Imagen2, Imagen3];
+
     useEffect(() => {
-        fetch(`${API_URL}?userId=${USER_ID}`)
+        if (!authLoading && !isAuthenticated) {
+            navigate('/login');
+        }
+    }, [isAuthenticated, authLoading, navigate]);
+
+    useEffect(() => {
+        if (!isAuthenticated) return;
+
+        fetch(`${API_URL}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
             .then(res => res.json())
             .then(json => {
                 if (json.status === 'success' && json.data) {
@@ -39,7 +52,7 @@ export default function Checkout() {
             })
             .catch(err => console.error("Error carregant cistella:", err))
             .finally(() => setCarregant(false));
-    }, []);
+    }, [isAuthenticated, token]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -65,7 +78,6 @@ export default function Checkout() {
         setMissatge(null);
 
         const orderData = {
-            user: USER_ID,
             items: cistella.map(item => ({
                 product: item.product._id,
                 quantity: item.quantity,
@@ -78,7 +90,10 @@ export default function Checkout() {
         try {
             const resp = await fetch(ORDER_URL, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
                 body: JSON.stringify(orderData)
             });
 

@@ -1,15 +1,18 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Imagen1 from './img/7331940bbbfe1e45cd46cf79bab4d6d367355de7_original.jpeg';
 import Imagen2 from './img/61zcNJiwpnL.jpg';
 import Imagen3 from './img/71w7rKma8cL_40743863-5242-429a-9.jpg';
 import './Home.css';
 
-const USER_ID = "65b2a3f4e4b0a1a2b3c4d5e6";
+import { useAuth } from '../context/AuthContext';
+
 const API_URL = "http://localhost:3000/api/cart";
 const PRODUCTS_URL = "http://localhost:3000/api/products";
 
 export default function Home() {
+  const { user, token, isAuthenticated } = useAuth();
+  const navigate = useNavigate();
   const [productes, setProductes] = useState([]);
   const [cistella, setCistella] = useState([]);
   const [cistellaOberta, setCistellaOberta] = useState(false);
@@ -45,6 +48,7 @@ export default function Home() {
     fetch(`${PRODUCTS_URL}?${queryParams.toString()}`)
       .then(res => res.json())
       .then(json => {
+        console.log("DEBUG PRODUCTS:", json);
         if (json.status === 'success' && json.data) {
           const productesAmbImatges = json.data.map((prod, index) => ({
             ...prod,
@@ -58,18 +62,24 @@ export default function Home() {
       .finally(() => setCarregantProductes(false));
   }, [filters]);
 
-  // Carregar la cistella des del backend al iniciar
+  // Carregar la cistella des del backend al iniciar o quan canvia l'autenticació
   useEffect(() => {
-    fetch(`${API_URL}?userId=${USER_ID}`)
+    if (!isAuthenticated) {
+      setCistella([]);
+      setCarregant(false);
+      return;
+    }
+
+    fetch(`${API_URL}`, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
       .then(res => res.json())
       .then(json => {
         if (json.status === 'success' && json.data) {
           const itemsProcessats = json.data.items.map(item => {
-            // Si el backend ha fet populate, 'item.product' és un objecte
             const p = item.product;
-
-            // Si no està populat (només ID), busquem a la llista local com a fallback
-            // però amb el nou backend sempre hauria d'estar populat.
             const producteBase = (typeof p === 'object' && p !== null)
               ? p
               : productes.find(prod => prod._id === p);
@@ -90,7 +100,6 @@ export default function Home() {
               nom: producteBase.name,
               preu: producteBase.price,
               quantitat: item.quantity,
-              // Assignem imatge si no en té (per productes afegits des de detalls)
               imatge: producteBase.image || imatgesDisponibles[Math.floor(Math.random() * imatgesDisponibles.length)]
             };
           });
@@ -99,7 +108,7 @@ export default function Home() {
       })
       .catch(err => console.error("Error carregant cistella:", err))
       .finally(() => setCarregant(false));
-  }, [productes]); // Encara depenem de productes per si canvien les imatges locals, però és més robust
+  }, [productes, isAuthenticated, token]);
 
   const handleFilterChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -111,16 +120,23 @@ export default function Home() {
 
   const afegirACistella = async (e, producte) => {
     e.preventDefault();
+    if (!isAuthenticated) {
+        alert('Has d\'iniciar sessió per afegir productes a la cistella');
+        navigate('/login');
+        return;
+    }
     try {
       const requestBody = {
-        userId: USER_ID,
         productId: producte._id || producte.id,
         quantity: 1
       };
 
       const resp = await fetch(`${API_URL}/add`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
         body: JSON.stringify(requestBody)
       });
 
@@ -149,8 +165,11 @@ export default function Home() {
 
   const eliminarDeCistella = async (id) => {
     try {
-      const resp = await fetch(`${API_URL}/remove/${id}?userId=${USER_ID}`, {
-        method: 'DELETE'
+      const resp = await fetch(`${API_URL}/remove/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
       });
       const json = await resp.json();
       if (json.status === 'success') {

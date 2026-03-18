@@ -5,12 +5,16 @@ import Imagen2 from './img/61zcNJiwpnL.jpg';
 import Imagen3 from './img/71w7rKma8cL_40743863-5242-429a-9.jpg';
 import './Home.css';
 
+import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
+
 const PRODUCT_API_URL = "http://localhost:3000/api/products";
 const CART_API_URL = "http://localhost:3000/api/cart";
-const USER_ID = "65b2a3f4e4b0a1a2b3c4d5e6";
 
 export default function ProductDetail() {
     const { id } = useParams();
+    const { token, isAuthenticated } = useAuth();
+    const navigate = useNavigate();
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -41,12 +45,19 @@ export default function ProductDetail() {
     }, [id]);
 
     const afegirACistella = async () => {
+        if (!isAuthenticated) {
+            alert('Has d\'iniciar sessió per afegir productes a la cistella');
+            navigate('/login');
+            return;
+        }
         try {
             const resp = await fetch(`${CART_API_URL}/add`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
                 body: JSON.stringify({
-                    userId: USER_ID,
                     productId: id,
                     quantity: 1
                 })

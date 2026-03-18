@@ -3,9 +3,8 @@
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: #1a1a2e;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -24,9 +23,14 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
+  min-height: 100vh;
+  width: 100%;
+  background-color: #1a1a2e; /* Fallback matching home-container */
+}
+
+#root {
+  width: 100%;
   min-height: 100vh;
 }
 
@@ -65,4 +69,37 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+/* Global Form Styles for Dark Theme */
+h1, h2, h3, h4, h5, h6 {
+  color: #ffffff;
+}
+
+.form-label {
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.form-control {
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+}
+
+.form-control:focus {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: #4a90e2;
+  color: #ffffff;
+  box-shadow: 0 0 0 0.25rem rgba(74, 144, 226, 0.25);
+}
+
+.form-control::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.alert {
+  background-color: rgba(220, 53, 69, 0.2);
+  border: 1px solid rgba(220, 53, 69, 0.5);
+  color: #ff8d8d;
 }
